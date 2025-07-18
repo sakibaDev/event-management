@@ -1,21 +1,40 @@
 from django.shortcuts import render,HttpResponse,redirect,get_object_or_404
 from events.models import Event,Category,Participant
 from .forms import EventForm, ParticipantForm, CategoryForm
+from django.db.models import Q
 
 
 # Create your views here.
-def home(request):
-    return HttpResponse('Urls of event is working.')
+
 
 def dashboard(request):
     return render(request,"dashboard/dashboard.html")
 
 # ------Event Views------
 
-def  event_list(request):
 
-    events = Event.objects.all()
-    return render(request, 'events/event_list.html', {'events': events})
+def event_list(request):
+    category_id = request.GET.get('category')
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
+    events = Event.objects.select_related('category').prefetch_related('participants')
+
+    if category_id:
+        events = events.filter(category__id=category_id)
+
+    if start_date and end_date:
+        events = events.filter(date__range=[start_date, end_date])
+
+    total_participants = Participant.objects.count()
+
+    categories = Category.objects.all() 
+
+    return render(request, 'events/event_list.html', {
+        'events': events,
+        'total_participants': total_participants,
+        'categories': categories
+    })
 
 def event_create(request):
     if request.method == 'POST':
@@ -77,7 +96,7 @@ def category_update(request, pk):
 
 
 def category_delete(request, pk):
-    category = get_object_or_404(Event, pk=pk)
+    category = get_object_or_404(Category,pk=pk)
     category.delete()
     return redirect('category_list')
 
@@ -107,7 +126,7 @@ def participant_update(request, pk):
             form.save()
             return redirect('participant_list')
     else:
-        form = EventForm(instance=participants)
+        form = ParticipantForm(instance=participants)
     return render(request, 'participant/participant_list.html', {'form': form})
 
 
