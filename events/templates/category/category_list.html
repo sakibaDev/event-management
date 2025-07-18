@@ -1,0 +1,10 @@
+{% extends "dashboard/base.html" %}
+
+{% block content %}
+  <h1 class="text-xl font-bold">Category List</h1>
+  <ul>
+    {% for category in categories %}
+      <li>{{ category.name }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
