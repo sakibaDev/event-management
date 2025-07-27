@@ -1,110 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Event Manager</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body class="font-sans bg-gray-50 text-gray-800">
-    <!-- Navbar -->
-    <header>
-      <nav class="bg-white border-b">
-        <div
-          class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between"
-        >
-          <h1 class="text-4xl font-serif font-bold">Event Manager</h1>
-          <div class="flex gap-8 text-sm font-medium text-gray-600">
-            <a href="#" class="hover:text-gray-900">Dashboard</a>
-            <a href="#" class="hover:text-gray-900">Events</a>
-            <a href="#" class="hover:text-gray-900">Categories</a>
-            <a href="#" class="hover:text-gray-900">Participants</a>
-          </div>
+{% extends "dashboard/base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- Stats Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <!-- Total Events -->
+        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition cursor-pointer">
+            <h2 class="text-lg font-semibold text-gray-600">Total Events</h2>
+            <p class="text-3xl font-bold text-blue-600">{{ total_events }}</p>
         </div>
-      </nav>
-    </header>
-
-  
-    <!-- Main Content -->
-    <main class="w-7xl mx-auto px-4 py-8">
-      <!-- Heading -->
-      <h2 class="text-2xl font-semibold mb-4">All Events</h2>
-
-      <!-- Search Bar -->
-      <div class="mb-6">
-        <input
-          type="text"
-          placeholder="Search by name or location"
-          class="w-full rounded-md border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-        />
-      </div>
-
-      <!-- Event Cards Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Card 1 -->
-        <div class="bg-white border rounded-xl p-4 shadow-sm">
-          <h3 class="text-lg font-semibold">Art Exhibition</h3>
-          <p class="text-sm text-gray-600">April 25, 2024, 10:00 AM</p>
-          <div class="flex justify-between mt-2 text-sm text-gray-600">
-            <span>Category: Arts</span>
-            <span>Participants: 20</span>
-          </div>
-          <a
-            href="#"
-            class="text-blue-600 text-sm font-medium mt-3 inline-block"
-            >View Details</a
-          >
+        <!-- Upcoming Events -->
+        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition cursor-pointer">
+            <h2 class="text-lg font-semibold text-gray-600">Upcoming Events</h2>
+            <p class="text-3xl font-bold text-green-600">{{ upcoming_events }}</p>
         </div>
-
-        <!-- Card 2 -->
-        <div class="bg-white border rounded-xl p-4 shadow-sm">
-          <h3 class="text-lg font-semibold">Tech Conference</h3>
-          <p class="text-sm text-gray-600">April 30, 2024, 9:00 AM</p>
-          <div class="flex justify-between mt-2 text-sm text-gray-600">
-            <span>Category: Technology</span>
-            <span>Participants: 15</span>
-          </div>
-          <a
-            href="#"
-            class="text-blue-600 text-sm font-medium mt-3 inline-block"
-            >View Details</a
-          >
+        <!-- Past Events -->
+        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition cursor-pointer" >
+            <h2 class="text-lg font-semibold text-gray-600">Past Events</h2>
+            <p class="text-3xl font-bold text-red-600">{{ past_events }}</p>
         </div>
-
-        <!-- Card 3 -->
-        <div class="bg-white border rounded-xl p-4 shadow-sm">
-          <h3 class="text-lg font-semibold">Music Festival</h3>
-          <p class="text-sm text-gray-600">May 5, 2024, 2:00 PM</p>
-          <div class="flex justify-between mt-2 text-sm text-gray-600">
-            <span>Category: Music</span>
-            <span>Participants: 75</span>
-          </div>
-          <a
-            href="#"
-            class="text-blue-600 text-sm font-medium mt-3 inline-block"
-            >View Details</a
-          >
+        <!-- Total Participants -->
+        <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+            <h2 class="text-lg font-semibold text-gray-600">Participants</h2>
+            <p class="text-3xl font-bold text-yellow-600">{{ total_participants }}</p>
         </div>
+    </div>
 
-        <!-- Card 4 -->
-        <div class="bg-white border rounded-xl p-4 shadow-sm">
-          <h3 class="text-lg font-semibold">Community Meetup</h3>
-          <p class="text-sm text-gray-600">May 10, 2024, 6:00 PM</p>
-          <div class="flex justify-between mt-2 text-sm text-gray-600">
-            <span>Category: Community</span>
-            <span>Participants: 30</span>
-          </div>
-          <a
-            href="#"
-            class="text-blue-600 text-sm font-medium mt-3 inline-block"
-            >View Details</a
-          >
-        </div>
-      </div>
-    </main>
-  </body>
-</html>
+</div>
+
+{% endblock %}

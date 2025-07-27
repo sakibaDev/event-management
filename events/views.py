@@ -7,8 +7,28 @@ from django.db.models import Q
 # Create your views here.
 
 
+from django.utils.timezone import now
+from django.db.models import Count
+from datetime import date
+
 def dashboard(request):
-    return render(request,"dashboard/dashboard.html")
+    today = date.today()
+
+    total_events = Event.objects.count()
+    upcoming_events = Event.objects.filter(date__gt=today).count()
+    past_events = Event.objects.filter(date__lt=today).count()
+    total_participants = Participant.objects.count()
+
+    todays_events = Event.objects.filter(date=today)
+
+    return render(request, "dashboard/dashboard.html", {
+        "total_events": total_events,
+        "upcoming_events": upcoming_events,
+        "past_events": past_events,
+        "total_participants": total_participants,
+        "todays_events": todays_events
+    })
+
 
 # ------Event Views------
 
@@ -41,10 +61,13 @@ def event_create(request):
         form = EventForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('event_list')  # Back to event list
+            return redirect('event_list')
+        else:
+            print("Form errors:", form.errors)  # 👈 Add this
     else:
         form = EventForm()
     return render(request, 'events/event_form.html', {'form': form})
+
 
 
 def event_update(request, pk):
@@ -77,7 +100,7 @@ def category_create(request):
         form = CategoryForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('category_list')  # Back to event list
+            return redirect('category_list')  
     else:
         form = CategoryForm()
     return render(request, 'category/category_form.html', {'form': form})
@@ -112,7 +135,7 @@ def participant_create(request):
         form = ParticipantForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('participant_list')  # Back to event list
+            return redirect('participant_list') 
     else:
         form = ParticipantForm()
     return render(request, 'participant/participant_form.html', {'form': form})
@@ -127,7 +150,7 @@ def participant_update(request, pk):
             return redirect('participant_list')
     else:
         form = ParticipantForm(instance=participants)
-    return render(request, 'participant/participant_list.html', {'form': form})
+    return render(request, 'participant/participant_form.html', {'form': form})
 
 
 def participant_delete(request, pk):

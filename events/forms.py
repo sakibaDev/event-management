@@ -8,9 +8,25 @@ class CategoryForm(forms.ModelForm):
 
 
 class EventForm(forms.ModelForm):
+    from django import forms
+from .models import Event
+
+class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ['name', 'description', 'date', 'time', 'location', 'category']
+        fields = '__all__'  # Or list your fields explicitly
+
+        widgets = {
+            'date': forms.DateInput(attrs={
+                'type': 'date',
+                'class': 'form-input border rounded px-3 py-2 w-full'
+            }),
+            'time': forms.TimeInput(attrs={
+                'type': 'time',
+                'class': 'form-input border rounded px-3 py-2 w-full'
+            }),
+        }
+
 
 
 class ParticipantForm(forms.ModelForm):
