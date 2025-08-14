@@ -8,13 +8,9 @@ class CategoryForm(forms.ModelForm):
 
 
 class EventForm(forms.ModelForm):
-    from django import forms
-from .models import Event
-
-class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = '__all__'  # Or list your fields explicitly
+        fields = '__all__'
 
         widgets = {
             'date': forms.DateInput(attrs={

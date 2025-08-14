@@ -11,21 +11,38 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config, Csv
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-m=cpul4bj@&7h@dj6#m2)n38bk9483z3(2+8k#@i4u4@+9!!_u'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*', cast=Csv())
+CSRF_TRUSTED_ORIGIN = config('CSRF_TRUSTED_ORIGINS', default='', cast=Csv())
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT', cast=int),
+    }
+}
+
+
+ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGIN =['https://*.onrender.com','http://127.0.0.1:8000/']
 
 
 # Application definition
@@ -79,26 +96,6 @@ WSGI_APPLICATION = 'event_management.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# For Sqlite
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-# for postgres
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'event_management',
-        'USER': 'postgres',
-        'PASSWORD': 'admin123',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
 
 
 # Password validation

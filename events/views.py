@@ -1,14 +1,13 @@
 from django.shortcuts import render,HttpResponse,redirect,get_object_or_404
 from events.models import Event,Category,Participant
 from .forms import EventForm, ParticipantForm, CategoryForm
-from django.db.models import Q
+
 
 
 # Create your views here.
 
 
-from django.utils.timezone import now
-from django.db.models import Count
+
 from datetime import date
 
 def dashboard(request):
@@ -62,8 +61,7 @@ def event_create(request):
         if form.is_valid():
             form.save()
             return redirect('event_list')
-        else:
-            print("Form errors:", form.errors)  # 👈 Add this
+        
     else:
         form = EventForm()
     return render(request, 'events/event_form.html', {'form': form})
