@@ -27,7 +27,10 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*', cast=Csv())
-CSRF_TRUSTED_ORIGIN = config('CSRF_TRUSTED_ORIGINS', default='', cast=Csv())
+CSRF_TRUSTED_ORIGINS = [
+    'https://event-management-hpd1.onrender.com'
+]
+
 
 # DATABASES = {
 #     'default': {
